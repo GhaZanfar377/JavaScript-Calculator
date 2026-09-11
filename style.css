@@ -1,0 +1,292 @@
+*{
+    padding:0px;
+    margin:0px;
+}
+button{
+    font-size: large;
+}
+.container {
+    width: 100%;
+    height: 650px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image: linear-gradient(
+        to bottom right,
+        #FFFFFF,
+        #EAF6DC
+    );
+}
+/* calculator styling */
+.calculator{
+    width:400px;
+    height:650px;
+    border: none;
+    border-radius: 24px;
+    background: #ffffff;
+    box-shadow: 0 20px 50px rgba(44, 62, 32, 0.12);
+    /* background-image: linear-gradient(to bottom,#ffffff, #d0eab0); */
+}
+.main-text-area{
+    width:90%;
+    height:120px;
+    display:flex;
+    justify-content: center;
+    align-items: end;
+    margin: 40px 0px;
+    justify-self: end;
+    flex-direction: column;
+    background-color: #F1F5EC;
+    border: none;
+    border-top-left-radius: 14px;
+    border-bottom-left-radius: 14px;
+    gap:10px;
+}
+/* user input parts styling */
+.user-input-container{
+    display: flex;
+}
+.user-input-display,
+.results {
+    font-family: "Space Grotesk", sans-serif;
+}
+.user-input-display {
+    font-size: 24px;
+    font-weight: 500;
+}
+.results {
+    font-size: 32px;
+    font-weight: 700;
+    margin-right: 30px;
+}
+.blinking-cursor {
+    width: 2px;
+    height: 25px;
+    background-color: #263322;
+    margin-left: 5px;
+    animation: blink 1s infinite;
+    margin-right: 30px;
+}
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
+}
+
+/* Math buttons styling */
+.math-button-container{
+    display:flex;
+    height:35px;
+    width:90%;
+    justify-self: center;
+    justify-content: space-between;
+}
+
+.math-button {
+    height: 100%;
+    width: 17%;
+    border-radius: 10px;
+    background-color: #EEF3E9;
+    color: #52604B;
+    border: 1px solid #DDE5D7;
+}
+.math-button:hover {
+    background-color: #E2EBDC;
+}
+
+
+/* lower buttons styling */
+.lower-button-container{
+    display:flex;
+    justify-self: center;
+    width:90%;
+    height:350px;
+    margin:25px 0px;
+    justify-content: space-between;
+}
+/* Left side lower buttons style */
+.left-lower-button-container{
+    width:72%;
+    height:100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.lower-left-btn {
+    width: 26%;
+    height: 50px;
+    border-radius: 12px;
+    background-color: #FFFFFF;
+    color:#E2EBDC;
+    color: #263322;
+    border: 1px solid #E3E9DE;
+    box-shadow: 0 3px 8px rgba(44, 62, 32, 0.06);
+}
+.lower-left-btn:hover {
+    background-color: #EEF4E8;
+}
+#zero-btn{
+    width:62%;
+}
+
+
+
+
+/* Right side lower buttons style */
+.right-lower-button-container{
+    width:17%;
+    height:100%;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+.lower-right-btn {
+    width: 100%;
+    height: 50px;
+    border-radius: 12px;
+    background-color: #DCECCB;
+    color: #355329;
+    border: 1px solid #C9DDB7;
+}
+.lower-right-btn:hover {
+    background-color: #CFE4B9;
+}
+#plus-btn{
+    height:90px;
+}
+#equalTo-btn {
+    height: 90px;
+    background-color: #527A3A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 12px;
+    box-shadow: 0 5px 12px rgba(82, 122, 58, 0.22);
+}
+#equalTo-btn:hover {
+    background-color: #466C31;
+}
+.lower-left-btn,
+.lower-right-btn,
+.math-button:hover {
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+.AC-btn, .cross-btn{
+    background-color: #F8EDE6;
+    color: #9A5132;
+    border: 1px solid #EED7CA;
+    width: 26%;
+    height: 50px;
+    border-radius: 12px;
+    border: 1px solid #E3E9DE;
+    box-shadow: 0 3px 8px rgba(44, 62, 32, 0.06);
+}
+.AC-btn:hover,
+.cross-btn:hover{
+    background-color: #f1e3da;
+    transition-duration: 0.2s ease;
+    cursor: pointer;
+}
+
+/* Media Query */
+/* Mobile */
+@media screen and (max-width: 720px) {
+
+    .container {
+        width: 100%;
+        min-height: 100vh;
+        height: auto;
+        padding: 20px 0;
+        box-sizing: border-box;
+    }
+
+    .calculator {
+        width: 80%;
+        height: auto;
+        min-height: 620px;
+        border-radius: 20px;
+        margin-right: 50px;
+    }
+
+    /* Display */
+    .main-text-area {
+        width: 90%;
+        height: 110px;
+        margin: 30px 0;
+    }
+
+    .user-input-display {
+        font-size: 22px;
+    }
+
+    .results {
+        font-size: 28px;
+        margin-right: 20px;
+    }
+
+    .blinking-cursor {
+        height: 22px;
+        margin-right: 20px;
+    }
+
+    /* Math buttons */
+    .math-button-container {
+        width: 90%;
+        height: 38px;
+        margin-top:60px;
+    }
+
+    .math-button {
+        width: 21%;
+        font-size: 16px;
+        border-radius: 9px;
+    }
+
+    /* Lower buttons */
+    .lower-button-container {
+        width: 90%;
+        height: auto;
+        margin: 25px auto;
+        gap: 12px;
+    }
+
+    .left-lower-button-container {
+        width: 72%;
+        height: auto;
+        row-gap: 12px;
+    }
+
+    .right-lower-button-container {
+        width: 18%;
+        height: auto;
+        gap: 12px;
+    }
+
+    /* Left buttons */
+    .lower-left-btn,
+    .AC-btn,
+    .cross-btn {
+        height: 55px;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .lower-left-btn {
+        width: 26%;
+    }
+
+    #zero-btn {
+        width: 62%;
+    }
+
+    /* Right buttons */
+    .lower-right-btn {
+        height: 55px;
+        border-radius: 10px;
+    }
+
+    #plus-btn,
+    #equalTo-btn {
+        height: 90px;
+    }
+}
