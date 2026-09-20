@@ -13,6 +13,8 @@ buttonsList.forEach(button =>{
 
         displayInput(dataValue);
 
+
+        unaryCalculation();
         binaryCalculation();
         
     })
@@ -26,6 +28,7 @@ function displayInput(value){
 
     
 }
+
 
 
 // Delete top or clearAll character function
@@ -51,22 +54,9 @@ deletion();
 
 // binary operators calculation function doing calculation in presidence order
 
-function binaryCalculation(){
+function binaryCalculation(inputArray){
     
-    let inputArray;
     let binaryResult;
-
-    // converts the user inputs to an array for operations
-    if(inputDisplay.textContent!==undefined){
-        inputArray= inputDisplay.textContent.split(/([+×÷\/-])/).filter(Boolean);
-    }
-
-    // handling if - or + are entered as first entry.
-
-    if(inputArray[0] === "-" || inputArray[0] === "+"){
-
-        inputArray.splice(inputArray[0], 2, inputArray[0] + inputArray[1]);
-    }
 
     // loop to inputArray and do calculation only if an operand exists after the operator
     for (let i= 1; i<inputArray.length-1; i++){
@@ -105,7 +95,7 @@ function binaryCalculation(){
 
     // loop for handling addition and substraction 
 
-    for(let i=0; i<inputArray.length-1; i++){
+    for(let i=1; i<inputArray.length-1; i++){
 
         if(inputArray[i] === "-" || inputArray[i] === "+"){
 
@@ -133,7 +123,8 @@ function binaryCalculation(){
 
     }
 
-    resultDisplay.textContent = binaryResult;
+    return inputArray[0];
+
 }
 
 
@@ -142,4 +133,109 @@ function binaryCalculation(){
 
 function unaryCalculation(){
     
+    // splitting the expression to array for calculations
+
+    let unaryResult; 
+    let inputArray;
+
+    if(inputDisplay.textContent!== undefined){
+        inputArray = inputDisplay.textContent.split(/(\+|-|×|\/|√|%|x²|1\/x)/).filter(Boolean);
+    }
+
+    // handling if - or + are entered as first entry.
+
+    if(inputArray[0] === "-" || inputArray[0] === "+" && inputArray[1] !== undefined){
+
+        inputArray.splice(inputArray[0], 2, inputArray[0] + inputArray[1]);
+    }
+
+    // handling the operators and modifying the array as according to calculations
+    for(let i=0; i<inputArray.length; i++){
+
+        let number;
+        if(inputArray[i] === "√" && inputArray[i+1] !== undefined){
+            number = Number(inputArray[i+1]);
+            unaryResult= Math.sqrt(number);
+            inputArray.splice(i, 2, unaryResult);
+            i--;
+        }
+
+
+        else if(inputArray[i] ==="x²"){
+
+            if(inputArray[i-1] !== undefined){
+                number = Number(inputArray[i-1]);
+                unaryResult= number **2;
+                inputArray.splice(i - 1, 2, unaryResult);
+                i--;
+            }
+        }
+
+        else if(inputArray[i] ==="1/x"){
+
+            if(inputArray[i-1] !== undefined){
+                number = Number(inputArray[i-1]);
+                unaryResult= 1/number;
+                inputArray.splice(i - 1, 2, unaryResult);
+                i--;
+            }
+        }
+
+
+
+        // handling the percentage operator on the context
+
+        else if(inputArray[i] ==="%"){
+
+            let prevOperator = inputArray[i-2];
+            let prevNumber = Number(inputArray[i-3]);
+
+            /* "%" produces different results based on the context such as when a previous
+             operator in the expression exists or not, so handling result based on the context:
+            */
+
+            if(inputArray[i-1] !== undefined){
+                
+                number = Number(inputArray[i-1]);
+
+                // calculate result based on the presvious operators
+                let startIndex;
+
+                if(prevOperator === "+"){
+                    unaryResult= prevNumber + (prevNumber * number/100);
+                    startIndex = i - 3;
+                }
+
+                else if(prevOperator === "-"){
+                    unaryResult= prevNumber - (prevNumber * number/100);
+                    startIndex = i - 3;
+                }
+
+                else if(prevOperator === "×"){
+                    unaryResult= prevNumber * number/100;
+                    startIndex = i - 3;
+                }
+
+                else if(prevOperator === "/"){
+                    unaryResult= prevNumber / (number/100);
+                    startIndex = i - 3;
+                }
+                
+                // calculate result when "%"" is the very first element
+                else{
+                    unaryResult= number/100;
+                    startIndex = i - 1;
+                }
+
+
+                // splice the array with updated result
+                inputArray.splice(startIndex, i-startIndex + 1, unaryResult);
+                i = startIndex;
+
+
+            }
+        }
+    }
+
+    return inputArray;
 }
