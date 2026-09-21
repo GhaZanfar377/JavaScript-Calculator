@@ -12,13 +12,16 @@ buttonsList.forEach(button =>{
         dataValue = event.currentTarget.dataset.value;
 
         displayInput(dataValue);
+        
 
+        let cleanedArray= unaryCalculation();
+        let finalResult = binaryCalculation(cleanedArray);
 
-        unaryCalculation();
-        binaryCalculation();
+        displayResult(finalResult);
         
     })
 })
+
 
 // function to display inputs 
 function displayInput(value){
@@ -144,7 +147,7 @@ function unaryCalculation(){
 
     // handling if - or + are entered as first entry.
 
-    if(inputArray[0] === "-" || inputArray[0] === "+" && inputArray[1] !== undefined){
+    if((inputArray[0] === "-" || inputArray[0] === "+") && inputArray[1] !== undefined){
 
         inputArray.splice(inputArray[0], 2, inputArray[0] + inputArray[1]);
     }
@@ -237,5 +240,15 @@ function unaryCalculation(){
         }
     }
 
+    // if no operator remains between two operands then by default multiply them.
+    for(let i=0; i<inputArray.length-1; i++){
+
+        let currentIsOperator = inputArray[i]==="+" || inputArray[i]==="-" || inputArray[i]==="×" || inputArray[i]==="/";
+        let nextIsOperator = inputArray[i+1]==="+" || inputArray[i+1]==="-" || inputArray[i+1]==="×" || inputArray[i+1]==="/";
+
+        if(currentIsOperator === false && nextIsOperator === false){
+            inputArray.splice(i+1, 0, "×");
+        }
+    }
     return inputArray;
 }
