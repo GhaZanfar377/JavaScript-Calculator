@@ -62,6 +62,31 @@ function displayInput(value) {
         }
 
         else {
+
+
+            if (value === ".") {
+                let currentNumber = inputDisplay.textContent.match(/[0-9.]*$/)[0];
+
+                if (currentNumber.includes(".")) {
+                    return;
+                }
+            }
+
+
+
+            // handling double operators, and operator followed by -
+
+            let currentOperator = value === "+" || value === "-" || value === "×" || value === "/";  //current value is an operator or not?
+            let prevValue = inputDisplay.textContent.slice(-1);  //get previous value
+
+            let prevIsOprerator = prevValue === "+" || prevValue === "-" || prevValue === "×" || prevValue === "/";  //previous value is an operator or not?
+            let isSignException = value === "-" && (prevValue === "+" || prevValue === "×" || prevValue === "/");  //is "-" being followed by any other operator
+
+            if(currentOperator && prevIsOprerator && (!isSignException)){;
+                console.log("previous and current are both operators");
+                return;
+            }
+
             inputDisplay.textContent += value;
             scrollInputToEnd();
         }
@@ -77,7 +102,12 @@ function displayInput(value) {
 // result displaying function
 function displayResult(value) {
 
-    if (value !== "NaN") {
+    if (inputDisplay.textContent === "") {
+        resultDisplay.textContent = "";
+        return;
+    }
+
+    if (!Number.isNaN(Number(value))) {
         resultDisplay.textContent = value;
         resultDisplay.scrollLeft = resultDisplay.scrollWidth;
     }
@@ -93,8 +123,12 @@ function deletion() {
                 inputDisplay.textContent = "";
                 resultDisplay.textContent = "";
             }
+
             else {
                 inputDisplay.textContent = inputDisplay.textContent.slice(0, -1);
+                let cleanedArray = unaryCalculation();
+                let finalResult = binaryCalculation(cleanedArray);
+                displayResult(finalResult);
             }
         })
     })
@@ -195,11 +229,23 @@ function unaryCalculation() {
         inputArray = inputDisplay.textContent.split(/(\+|-|×|\/|√|%|x²|1\/x)/).filter(Boolean);
     }
 
-    // handling if - or + are entered as first entry.
 
-    if ((inputArray[0] === "-" || inputArray[0] === "+") && inputArray[1] !== undefined) {
+    // loop for gluing "+" or "-" to the next character, "+" at start entry only byt "-" anywhere
 
-        inputArray.splice(inputArray[0], 2, inputArray[0] + inputArray[1]);
+    for (let i = 0; i < inputArray.length - 1; i++) {
+
+        let isStart = i === 0;    //are we at start or not?
+
+        // previous value is any given operator?
+        let prevIsPlusOrMulOrDiv = inputArray[i-1] === "+" || inputArray[i-1] === "×" || inputArray[i-1] === "/";
+
+        let isSignSpot = isStart || prevIsPlusOrMulOrDiv;    // whether we are at start or previous value is a mentioned operator?
+
+        let isSignCharacter = inputArray[i] === "-" || (isStart && inputArray[i] === "+");
+
+        if (isSignCharacter && isSignSpot && inputArray[i+1] !== undefined) {
+            inputArray.splice(i, 2, inputArray[i] + inputArray[i+1]);
+        }
     }
 
     // handling the operators and modifying the array as according to calculations
