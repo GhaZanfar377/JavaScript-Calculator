@@ -12,6 +12,18 @@ let dataAction;
 // to find in which calculation stage the calculator is
 let equalsClicked;
 
+//  for better display of operations
+let rawInput = "";
+
+function formatForDisplay(rawText) {
+    return rawText
+        .replace(/x²/g, "²")
+        .replace(/1\/x/g, "⁻¹");
+}
+
+
+
+// get data value and data action or each button when clicked
 buttonsList.forEach(button => {
     button.addEventListener("click", function (event) {
         dataValue = event.currentTarget.dataset.value;
@@ -49,14 +61,15 @@ function displayInput(value) {
             // handling if input is an operator other than underroot
             let isOperator = value === "+" || value === "-" || value === "×" || value === "/" || value === "x²" || value === "1/x" || value === "%";
             if (isOperator) {
-                inputDisplay.textContent = resultDisplay.textContent + value;
-                scrollInputToEnd();
+                rawInput = resultDisplay.textContent + value;
             }
 
             else {
-                inputDisplay.textContent = value;
-                scrollInputToEnd();
+                rawInput = value;
             }
+
+            inputDisplay.textContent = formatForDisplay(rawInput);
+            scrollInputToEnd();
 
             equalsClicked = false;
         }
@@ -65,7 +78,7 @@ function displayInput(value) {
 
 
             if (value === ".") {
-                let currentNumber = inputDisplay.textContent.match(/[0-9.]*$/)[0];
+                let currentNumber = rawInput.match(/[0-9.]*$/)[0];
 
                 if (currentNumber.includes(".")) {
                     return;
@@ -77,17 +90,17 @@ function displayInput(value) {
             // handling double operators, and operator followed by -
 
             let currentOperator = value === "+" || value === "-" || value === "×" || value === "/";  //current value is an operator or not?
-            let prevValue = inputDisplay.textContent.slice(-1);  //get previous value
+            let prevValue = rawInput.slice(-1);  //get previous value
 
             let prevIsOprerator = prevValue === "+" || prevValue === "-" || prevValue === "×" || prevValue === "/";  //previous value is an operator or not?
             let isSignException = value === "-" && (prevValue === "+" || prevValue === "×" || prevValue === "/");  //is "-" being followed by any other operator
 
             if(currentOperator && prevIsOprerator && (!isSignException)){;
-                console.log("previous and current are both operators");
                 return;
             }
 
-            inputDisplay.textContent += value;
+            rawInput += value;
+            inputDisplay.textContent = formatForDisplay(rawInput);
             scrollInputToEnd();
         }
 
@@ -102,7 +115,7 @@ function displayInput(value) {
 // result displaying function
 function displayResult(value) {
 
-    if (inputDisplay.textContent === "") {
+    if (rawInput === "") {
         resultDisplay.textContent = "";
         return;
     }
@@ -119,13 +132,22 @@ function deletion() {
     let target = document.querySelectorAll(".cross-btn, .AC-btn");
     target.forEach(button => {
         button.addEventListener("click", function (event) {
+
+
+            equalsClicked = false;
+            inputContainer.style.display = "";
+            resultDisplay.style.fontSize = "";
+            
             if (event.currentTarget.dataset.action === "cross-all") {
+                rawInput = "";
                 inputDisplay.textContent = "";
                 resultDisplay.textContent = "";
             }
 
             else {
-                inputDisplay.textContent = inputDisplay.textContent.slice(0, -1);
+                rawInput = rawInput.slice(0, -1);
+                inputDisplay.textContent = formatForDisplay(rawInput);
+
                 let cleanedArray = unaryCalculation();
                 let finalResult = binaryCalculation(cleanedArray);
                 displayResult(finalResult);
@@ -224,9 +246,9 @@ function unaryCalculation() {
     let unaryResult;
     let inputArray;
 
-    if (inputDisplay.textContent !== undefined) {
+    if (rawInput !== undefined) {
 
-        inputArray = inputDisplay.textContent.split(/(\+|-|×|\/|√|%|x²|1\/x)/).filter(Boolean);
+        inputArray = rawInput.split(/(\+|-|×|\/|√|%|x²|1\/x)/).filter(Boolean);
     }
 
 
