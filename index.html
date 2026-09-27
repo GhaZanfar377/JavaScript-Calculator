@@ -20,6 +20,7 @@
   <body>
     <div class="container">
       <div class="calculator">
+
         <!-- Top Inputs -->
         <div class="main-text-area">
           <div class="user-input-container">
@@ -28,6 +29,7 @@
           </div>
           <span class="results"></span>
         </div>
+
         <!-------- Math Buttons ----------->
         <div class="math-button-container">
           <button class="math-button" data-value="√">√</button>
@@ -37,47 +39,62 @@
           <button class="math-button" data-value="x²" >x²</button>
           <button class="math-button" data-value="1/x" >1/x</button>
         </div>
+
         <!-------- Lower Buttons ----------->
         <div class="lower-button-container">
+
             <!-------- Lower Left Buttons ----------->
           <div class="left-lower-button-container">
             <button class="AC-btn " data-action="cross-all">AC</button>
+
             <button class="cross-btn " data-action="delete-top">
               <i class="fa-solid fa-delete-left"></i>
             </button>
-            <button class="lower-left-btn" data-value="/">
+
+            <button class="lower-left-btn division-btn" data-value="/">
               <i class="fa-solid fa-divide"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="7">
               <i class="fa-solid fa-7"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="8">
               <i class="fa-solid fa-8"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="9">
               <i class="fa-solid fa-9"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="4">
               <i class="fa-solid fa-4"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="5">
               <i class="fa-solid fa-5"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="6">
               <i class="fa-solid fa-6"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="1">
               <i class="fa-solid fa-1"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="2">
               <i class="fa-solid fa-2"></i>
             </button>
+
             <button class="lower-left-btn number-btns" data-value="3">
               <i class="fa-solid fa-3"></i>
             </button>
+
             <button class="lower-left-btn number-btns" id="zero-btn" data-value="0">
               <i class="fa-solid fa-0"></i>
             </button>
+
             <button class="lower-left-btn" data-value=".">
               .
             </button>
@@ -85,15 +102,19 @@
 
           <!-------- Lower Right Buttons ----------->
           <div class="right-lower-button-container">
+
             <button class="lower-right-btn" data-value="×">
               <i class="fa-solid fa-xmark"></i>
             </button>
+
             <button class="lower-right-btn" data-value="-">
               <i class="fa-solid fa-minus"></i>
             </button>
+
             <button class="lower-right-btn" id="plus-btn" data-value="+">
               <i class="fa-solid fa-plus"></i>
             </button>
+            
             <button class="lower-right-btn equals-button" id="equalTo-btn" data-action="=" >
               <i class="fa-solid fa-equals"></i>
             </button>
