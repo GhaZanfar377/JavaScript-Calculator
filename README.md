@@ -117,7 +117,7 @@ Before this, I thought Git was only a button to upload finished code. Now I unde
 
 - GitHub: [@GhaZanfar377](https://github.com/GhaZanfar377)
 
-- LinkedIn: [Ghazanfar Iqbal](www.linkedin.com/in/ghazanfar-iqbal-b0a58638b)
+- LinkedIn: [Ghazanfar Iqbal](https://www.linkedin.com/in/ghazanfar-iqbal-b0a58638b/)
 
 ---
 
