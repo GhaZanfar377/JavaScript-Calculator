@@ -9,6 +9,9 @@ button{
     font-weight: 500;
     letter-spacing: 0.2px;
     outline: none;
+    touch-action: manipulation;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
 }
 .container {
     width: 100%;
@@ -32,15 +35,15 @@ button{
     width:100%;
     height:120px;
     display:flex;
-    justify-content: center;
+    justify-content: flex-end;
     align-items: end;
     justify-self: end;
     flex-direction: column;
     background-color: #EFF3EA;
     border: none;
     border-radius: 28px 28px 0 0;
-    padding: 0 8px 18px 0;
-    gap:8px;
+    gap:15px;
+    padding-bottom: 10px;
 }
 /* user input parts styling */
 .user-input-container{
@@ -49,6 +52,7 @@ button{
     overflow-x: auto;
     white-space: nowrap;
     scrollbar-width: none;
+    margin-top: 20px;
 }
 .user-input-container::-webkit-scrollbar{
     display: none;
@@ -59,24 +63,31 @@ button{
     font-family: "Space Grotesk", sans-serif;
 }
 .user-input-display {
-    font-size: 22px;
+    font-size: 30px;
     font-weight: 500;
-    color: #6E7B65;
+    color: black;
     flex-shrink: 0;
+    height:35px;
+    overflow-y: hidden;
 }
 .results {
-    font-size: 32px;
+    font-size: 22px;
     font-weight: 700;
-    color: #263322;
+    color: #6a8363;
     margin-right: 30px;
     max-width: 90%;
     overflow-x: auto;
+    overflow-y: hidden;
     white-space: nowrap;
     scrollbar-width: none;
+    min-height: 30px;
+    display: flex;
+    align-items: end;
+    transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), font-size 0.45s cubic-bezier(0.22, 1, 0.36, 1);
 }
 .blinking-cursor {
     width: 2px;
-    height: 22px;
+    height: 30px;
     background-color: #6E7B65;
     margin-left: 5px;
     animation: blink 1s infinite;
