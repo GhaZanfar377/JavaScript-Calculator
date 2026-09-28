@@ -56,7 +56,9 @@ function displayInput(value) {
 
 
             inputContainer.style.display = "";
+            resultDisplay.style.transform = "";
             resultDisplay.style.fontSize = "";
+            resultDisplay.style.color = "";
 
             // handling if input is an operator other than underroot
             let isOperator = value === "+" || value === "-" || value === "×" || value === "/" || value === "x²" || value === "1/x" || value === "%";
@@ -66,6 +68,7 @@ function displayInput(value) {
 
             else {
                 rawInput = value;
+                resultDisplay.textContent = "";
             }
 
             inputDisplay.textContent = formatForDisplay(rawInput);
@@ -99,6 +102,25 @@ function displayInput(value) {
                 return;
             }
 
+
+            // blocking following operators as the first entry
+            let inputIsEmpty = rawInput.length === 0;
+            let startIsOperator = value === "x²" || value === "1/x" || value === "×" || value === "/" || value === "%";
+
+            if(inputIsEmpty && startIsOperator){
+                return
+            }
+
+            // blocking x², 1/x and % right after an operator
+            if ((value === "x²" || value === "1/x" || value === "%") && prevIsOprerator) {
+                return;
+            }
+
+            // after √ only a digit or a dot can follow
+            if (prevValue === "√" && !/^[0-9.]$/.test(value)) {
+                return;
+            }
+
             rawInput += value;
             inputDisplay.textContent = formatForDisplay(rawInput);
             scrollInputToEnd();
@@ -120,8 +142,18 @@ function displayResult(value) {
         return;
     }
 
+
+    // block displaying result untill a calculated result comes or "=" pressed for a plan number
+    let withoutTrailingOperator = rawInput.replace(/[+\-×/]+$/, "");
+    let isPlainNumber = /^[+-]?[0-9]*\.?[0-9]*$/.test(withoutTrailingOperator);
+
+    if (isPlainNumber && dataAction !== "=") {
+        resultDisplay.textContent = "";
+        return;
+    }
+
     if (!Number.isNaN(Number(value))) {
-        resultDisplay.textContent = value;
+        resultDisplay.textContent = Number(Number(value).toPrecision(15));
         resultDisplay.scrollLeft = resultDisplay.scrollWidth;
     }
 }
@@ -136,8 +168,10 @@ function deletion() {
 
             equalsClicked = false;
             inputContainer.style.display = "";
+            resultDisplay.style.transform = "";
             resultDisplay.style.fontSize = "";
-            
+            resultDisplay.style.color = "";
+
             if (event.currentTarget.dataset.action === "cross-all") {
                 rawInput = "";
                 inputDisplay.textContent = "";
@@ -145,7 +179,7 @@ function deletion() {
             }
 
             else {
-                rawInput = rawInput.slice(0, -1);
+                rawInput = rawInput.replace(/(x²|1\/x|.)$/, "");
                 inputDisplay.textContent = formatForDisplay(rawInput);
 
                 let cleanedArray = unaryCalculation();
@@ -230,7 +264,7 @@ function binaryCalculation(inputArray) {
         }
 
     }
-
+    
     return inputArray[0];
 
 }
@@ -248,7 +282,7 @@ function unaryCalculation() {
 
     if (rawInput !== undefined) {
 
-        inputArray = rawInput.split(/(\+|-|×|\/|√|%|x²|1\/x)/).filter(Boolean);
+        inputArray = rawInput.split(/((?<!e)[+-]|×|\/|√|%|x²|1\/x)/).filter(Boolean);
     }
 
 
@@ -375,11 +409,16 @@ function unaryCalculation() {
 
 // handlling "=" function
 function equalsTo() {
+    if (resultDisplay.textContent === "") {
+        return;
+    }
+    
     equalsClicked = true;
 
     inputContainer.style.display = "none";
-    resultDisplay.style.fontSize = "45px";
-
+    resultDisplay.style.transform = "translateY(-25px)";
+    resultDisplay.style.fontSize = "35px";
+    resultDisplay.style.color = "black";
 
 }
 
